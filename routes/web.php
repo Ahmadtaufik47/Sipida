@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DesaController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,11 @@ Route::get('/', function () {
 });
 
 Route::get('/desa/{desa:id}', [DesaController::class, 'getStruktural']);
+
+Route::get('/admin', [AdminController::class, 'index']);
+
+Route::post('/admin/login', [AdminController::class, 'login']);
+
+Route::post('/admin/logout', [AdminController::class, 'logout']);
+
+Route::resource('/desa')

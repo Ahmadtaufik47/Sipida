@@ -24,7 +24,7 @@ class DesaController extends Controller
         return view('desa', [
             'list_desa' => Desa::all(),
             'data_desa' => $desa,
-            'struktur_desa' => $desa->struktural
+            'struktur_desa' => $desa->struktural,
         ]);
     }
 

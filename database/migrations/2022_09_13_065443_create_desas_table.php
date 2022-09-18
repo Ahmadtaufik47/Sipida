@@ -18,6 +18,7 @@ class CreateDesasTable extends Migration
             $table->string('nama_desa');
             $table->text('visi');
             $table->text('misi');
+            $table->string('lokasi');
             $table->timestamps();
         });
     }

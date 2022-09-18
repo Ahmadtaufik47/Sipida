@@ -29,11 +29,11 @@
 
         <div class="card mt-3 mb-3">
             <div class="card-header">
-                Featured
+                Info
             </div>
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <h5 class="card-title">Manfaat Sipida</h5>
+                <p class="card-text">Sipida memberikan informasi mengenai struktural desa</p>
             </div>
         </div>
 

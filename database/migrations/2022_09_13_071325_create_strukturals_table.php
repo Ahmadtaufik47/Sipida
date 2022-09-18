@@ -17,6 +17,7 @@ class CreateStrukturalsTable extends Migration
             $table->id();
             $table->foreignId('desa_id');
             $table->string('nama');
+            $table->string('nip');
             $table->string('jabatan');
             $table->timestamps();
         });

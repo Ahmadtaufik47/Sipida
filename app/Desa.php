@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\InfoDesa;
+use App\Struktural;
 use Illuminate\Database\Eloquent\Model;
 
 class Desa extends Model
@@ -11,5 +13,10 @@ class Desa extends Model
     public function struktural()
     {
         return $this->hasMany(Struktural::class);
+    }
+
+    public function info_desa()
+    {
+        return $this->hasMany(InfoDesa::class);
     }
 }

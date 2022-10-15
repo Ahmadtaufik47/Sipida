@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Desa;
-use App\Struktural;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class DesaController extends Controller
 {
@@ -14,17 +13,13 @@ class DesaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    public function getStruktural(Desa $desa)
+    public function index(Desa $desa)
     {
         return view('desa', [
             'list_desa' => Desa::all(),
             'data_desa' => $desa,
             'struktur_desa' => $desa->struktural,
+            'info_desa' => $desa->info_desa
         ]);
     }
 
@@ -68,7 +63,9 @@ class DesaController extends Controller
      */
     public function edit(Desa $desa)
     {
-        //
+        return view('admin.vmedit', [
+            'desa' => $desa
+        ]);
     }
 
     /**
@@ -80,7 +77,14 @@ class DesaController extends Controller
      */
     public function update(Request $request, Desa $desa)
     {
-        //
+        $validasi = $request->validate([
+            'visi' => 'required',
+            'misi' => 'required'
+        ]);
+
+        Desa::where('id', $desa->id)->update($validasi);
+
+        return back()->with('berhasil', 'Berhasil Diubah');
     }
 
     /**
@@ -92,5 +96,38 @@ class DesaController extends Controller
     public function destroy(Desa $desa)
     {
         //
+    }
+
+    public function editImg(Desa $desa)
+    {
+        return view('admin.edit_img', [
+            'desa' => $desa
+        ]);
+    }
+
+    public function updateImg(Request $request, Desa $desa)
+    {
+        $validasi = $request->validate([
+            'img_desa' => 'image|file|max:2048',
+            'img_kades' => 'image|file|max:1024'
+        ]);
+
+        if ($request->file('img_desa')) {
+            if ($request->old_img_desa) {
+                Storage::delete($request->old_img_desa);
+            }
+            $validasi['img_desa'] = $request->file('img_desa')->store('gambar-desa');
+        }
+
+        if ($request->file('img_kades')) {
+            if ($request->old_img_kades) {
+                Storage::delete($request->old_img_kades);
+            }
+            $validasi['img_kades'] = $request->file('img_kades')->store('gambar-kades');
+        }
+
+        Desa::where('id', $desa->id)->update($validasi);
+
+        return back()->with('berhasil', 'Berhasil Diubah');
     }
 }

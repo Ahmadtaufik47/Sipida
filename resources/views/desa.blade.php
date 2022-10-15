@@ -7,64 +7,38 @@
 
 @section('konten')
     <div class="container mt-3 mb-3">
+        <div class="d-flex justify-content-end">
+            <a href="http://siwida.herokuapp.com/maps/{{ str_replace(' ', '-', $data_desa->nama_desa) }}"
+                class="text-success text-decoration-none">
+                Lihat Wisata Desa {{ $data_desa->nama_desa }}
+            </a>
+        </div>
+        @auth
+            <br>
+            <a href="/desa/img/e/{{ $data_desa->id }}" class="btn btn-success mb-3">
+                Ubah Gambar
+            </a>
+        @endauth
+
+        @if ($data_desa->img_desa !== '')
+            <img src="{{ asset('storage/' . $data_desa->img_desa) }}" class="img-fluid rounded mb-3">
+        @else
+            <img src="{{ asset('images/img1.jpg') }}" class="img-fluid rounded mb-3">
+        @endif
         <h5>Struktur Pemerintahan Desa {{ $data_desa->nama_desa }}</h5>
         <hr>
-        <div class="tf-tree d-flex justify-content-center mt-3 mb-3">
-            <ul>
-                <li>
-                    <span class="tf-nc fw-bold">
-                        <a class="text-decoration-none text-black" href="#kades">KEPALA DESA</a>
-                    </span>
-                    <ul>
-                        <li>
-                            <span class="tf-nc">KASI</span>
-                            <ul>
-                                <li>
-                                    <span class="tf-nc">PEMERINTAHAN</span>
-                                </li>
-                                <li>
-                                    <span class="tf-nc">KESEJAHTERAAN</span>
-                                </li>
-                                <li>
-                                    <span class="tf-nc">PELAYANAN</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span class="tf-nc border border-0">|</span>
-                            <ul>
-                                <li>
-                                    <span class="tf-nc border border-0">|</span>
-                                    <ul>
-                                        <li>
-                                            <span class="tf-nc">KADUS</span>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span class="tf-nc">SEKRETARIS</span>
-                            <ul>
-                                <li><span class="tf-nc">KAUR TATA USAHA & UMUM</span></li>
-                                <li><span class="tf-nc">KAUR KEUANGAN</span></li>
-                                <li><span class="tf-nc">KAUR PERENCANAAN</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="d-flex justify-content-center mt-3 mb-3">
+            <img src="{{ asset('images/Diagram.png') }}" class="img-fluid" alt="diagram">
         </div>
 
-
         @auth
-            <a href="/" class="btn btn-success mb-3">
+            <a href="/desa/e/{{ $data_desa->id }}" class="btn btn-success mb-3">
                 Ubah Visi & Misi
             </a>
         @endauth
         <div class="row mb-4">
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card border border-success shadow">
                     <div class="card-body">
                         <h5 class="card-title">Visi</h5>
                         <p class="card-text">{{ $data_desa->visi }}</p>
@@ -72,7 +46,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card border border-success shadow">
                     <div class="card-body">
                         <h5 class="card-title">Misi</h5>
                         <p class="card-text">{{ $data_desa->misi }}</p>
@@ -87,8 +61,24 @@
                 <div class="card border border-0" style="width: 18rem;">
                     @foreach ($struktur_desa as $pimpinan)
                         @if (Str::upper($pimpinan->jabatan) === 'PIMPINAN DESA')
-                            <img src="{{ asset('images/kades.jpg') }}" class="card-img-top" alt="...">
-                            <div class="card-body">
+                            @if ($data_desa->img_kades !== '')
+                                <div class="img-thumbnail border-success shadow-sm">
+                                    <img src="{{ asset('storage/' . $data_desa->img_kades) }}" class="img-fluid"
+                                        width="100%" height="256" style="height: 256px">
+                                </div>
+                                @auth
+                                    <a href="/desa/img/e/{{ $data_desa->id }}" class="btn btn-success mb-3">
+                                        Ubah Gambar Kades
+                                    </a>
+                                @endauth
+                            @else
+                                <div class="border text-center">
+                                    <a href="/desa/img/e/{{ $data_desa->id }}" class="text-success">
+                                        <i class="fa-solid fa-add fa-5x mb-5 mt-5"></i>
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="card-body text-center">
                                 <h5 class="card-title">Pimpinan Desa</h5>
                                 <p class="card-text text-muted"> {{ $pimpinan->nip }} </p>
                                 <p class="card-text">{{ $pimpinan->nama }}</p>
@@ -102,17 +92,19 @@
         <h5>Personil Desa</h5>
         <hr>
         @auth
-            <button class="btn btn-success mb-3">
+            <a href="/desa/s/c/" class="btn btn-success mb-3">
                 Tambah
-            </button>
+            </a>
         @endauth
-        <table class="table table-bordered">
-            <thead class="text-center">
+        <table class="table table-bordered shadow-sm">
+            <thead class="text-center table-success">
                 <tr>
                     <th scope="col">Jabatan</th>
                     <th scope="col">NIP</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Aksi</th>
+                    @auth
+                        <th scope="col">Aksi</th>
+                    @endauth
                 </tr>
             </thead>
             <tbody>
@@ -121,14 +113,57 @@
                         <td>{{ $struktur->jabatan }}</td>
                         <td> {{ $struktur->nip }} </td>
                         <td> {{ $struktur->nama }} </td>
-                        <td class="text-center">
-                            <a href="">Edit</a> |
-                            <a href="">Delete</a>
-                        </td>
+                        @auth()
+                            <td class="text-center">
+                                <a href="/desa/s/e/{{ $struktur->id }}" class="badge btn btn-success border border-0">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                <form action="/desa/s/d/{{ $struktur->id }}" method="POST" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="badge btn btn-danger border border-0">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        @endauth
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <h5>Info Desa</h5>
+        <hr>
+        @auth
+            <a href="/desa/i/c/" class="btn btn-success mb-3">
+                Tambah
+            </a>
+        @endauth
+
+        @foreach ($info_desa as $info)
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    @auth
+                        <form action="/desa/i/d/{{ $info->id }}" method="POST" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button class="badge btn btn-danger border border-0">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    @endauth
+                    {{ $info->judul }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ $info->isi }}</p>
+                    @auth
+                        <a href="/desa/i/e/{{ $info->id }}" class="link-success text-decoration-none">
+                            Ubah >>
+                        </a>
+                    @endauth
+                </div>
+            </div>
+        @endforeach
 
         <div class="d-flex justify-content-center">
             <div class="mapouter">

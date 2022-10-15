@@ -123,7 +123,6 @@ $list_desa = [
     {{-- mengambil konten dari halaman --}}
     @yield('konten')
 
-    <img src="{{ asset('images/wave-footer.svg') }}" alt="wave footer">
     <footer class="mt-auto bg-success">
         <div class="container">
             <div class="row p-3">

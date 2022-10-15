@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Desa;
-use App\Struktural;
+use App\InfoDesa;
 use Illuminate\Http\Request;
 
-class StrukturalController extends Controller
+class InfoDesaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class StrukturalController extends Controller
      */
     public function create()
     {
-        return view('admin.tambah_struktur', [
+        return view('admin.tambah_info', [
             'list_desa' => Desa::all()
         ]);
     }
@@ -39,13 +39,12 @@ class StrukturalController extends Controller
     public function store(Request $request)
     {
         $validasi = $request->validate([
-            'jabatan' => 'required',
-            'nip' => 'required|unique:strukturals',
-            'nama' => 'required',
+            'judul' => 'required|unique:info_desas',
+            'isi' => 'required',
             'desa_id' => 'required'
         ]);
 
-        Struktural::create($validasi);
+        InfoDesa::create($validasi);
 
         return back()->with('berhasil', 'Berhasil Dibuat');
     }
@@ -53,24 +52,24 @@ class StrukturalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Struktural  $struktural
+     * @param  \App\InfoDesa  $infoDesa
      * @return \Illuminate\Http\Response
      */
-    public function show(Struktural $struktural)
+    public function show(InfoDesa $infoDesa)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Struktural  $struktural
+     * @param  \App\InfoDesa  $infoDesa
      * @return \Illuminate\Http\Response
      */
-    public function edit(Struktural $struktural)
+    public function edit(InfoDesa $infoDesa)
     {
-        return view('admin.struktural', [
-            "struktural" => $struktural
+        return view('admin.edit_info', [
+            'info_desa' => $infoDesa,
+            'list_desa' => Desa::all()
         ]);
     }
 
@@ -78,18 +77,18 @@ class StrukturalController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Struktural  $struktural
+     * @param  \App\InfoDesa  $infoDesa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Struktural $struktural)
+    public function update(Request $request, InfoDesa $infoDesa)
     {
         $validasi = $request->validate([
-            'jabatan' => 'required',
-            'nip' => 'required',
-            'nama' => 'required'
+            'desa_id' => 'required',
+            'judul' => 'required',
+            'isi' => 'required',
         ]);
 
-        Struktural::where('id', $struktural->id)->update($validasi);
+        InfoDesa::where('id', $infoDesa->id)->update($validasi);
 
         return back()->with('berhasil', 'Berhasil Diubah');
     }
@@ -97,12 +96,12 @@ class StrukturalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Struktural  $struktural
+     * @param  \App\InfoDesa  $infoDesa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Struktural $struktural)
+    public function destroy(InfoDesa $infoDesa)
     {
-        Struktural::destroy($struktural->id);
+        InfoDesa::destroy($infoDesa->id);
 
         return back();
     }

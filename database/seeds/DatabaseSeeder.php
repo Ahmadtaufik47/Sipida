@@ -2,6 +2,7 @@
 
 use App\Desa;
 use App\User;
+use App\InfoDesa;
 use App\Struktural;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -106,6 +107,26 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Fadil',
             'nip' => '12',
             'jabatan' => 'Sekretaris Desa'
+        ]);
+        InfoDesa::create([
+            'desa_id' => '1',
+            'judul' => 'Data Dasar Keluarga',
+            'isi' => 'Test1, Test2, Test3'
+        ]);
+        InfoDesa::create([
+            'desa_id' => '1',
+            'judul' => 'Potensi SDA',
+            'isi' => 'Test1, Test2, Test3'
+        ]);
+        InfoDesa::create([
+            'desa_id' => '1',
+            'judul' => 'Potensi SDM',
+            'isi' => 'Test1, Test2, Test3'
+        ]);
+        InfoDesa::create([
+            'desa_id' => '1',
+            'judul' => 'Data Dasar Keluarga',
+            'isi' => 'Test1, Test2, Test3'
         ]);
     }
 }

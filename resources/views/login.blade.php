@@ -19,7 +19,9 @@
             <div class="card-body">
                 <div class="container">
                     <h3 class="text-center mt-3 mb-3">Login Admin</h3>
+                    {{-- berfungsi untuk submit data form dengan metode post dan akan digunakan sebagai autentifikasi admin --}}
                     <form action="/admin/login" method="POST">
+                        {{-- berfungsi sebagai keamanan form agar tidak dibajak --}}
                         @csrf
                         <div class="mb-3">
                             <label for="emailForm" class="form-label">
